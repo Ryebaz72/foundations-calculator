@@ -1,8 +1,13 @@
 let firstNumber = "";
 let secondNumber = "";
-firstNumberSet = false;
-secondNumberSet = false;
+let firstNumberSet = false;
+let secondNumberSet = false;
+let firstOpSet = false;
+let secondOpSet = false;
+
 let operator = "";
+let prevOperator = "";
+let opBtn = "";
 let displayResult = "";
 const calcDisplay = document.getElementById("calcDisplay");
 const btns = document.getElementById("btns");
@@ -22,6 +27,13 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
+    if (b === 0) {
+        alert("You can't divide by Zero!!");
+        firstNumber = "";
+        secondNumber = "";
+        operator = "";
+        return 0;
+    }
     return a / b;
 }
 
@@ -43,6 +55,7 @@ function operate(num1, num2, operator) {
         default:
             break;
     }
+    console.log("#Dc ", firstNumber, firstNumberSet, secondNumber, secondNumberSet, result);
     return result;
 }
 
@@ -141,35 +154,56 @@ function display() {
             case "btnAdd":
                 operator = "+";
                 displayResult = "+";
+                if (firstOpSet) {
+                    secondOpSet = true;
+                    prevOperator = operator;
+                }
                 firstNumberSet = true;
                 secondNumberSet = true;
+                firstOpSet = true;
                 break;
             case "btnSubtract":
                 operator = "-";
                 displayResult = "-";
+                if (firstOpSet) {
+                    secondOpSet = true;
+                    prevOperator = operator;
+                }
                 firstNumberSet = true;
                 secondNumberSet = true;
+                firstOpSet = true;
                 break;
             case "btnMultiply":
                 operator = "*";
                 displayResult = "*";
+                if (firstOpSet) {
+                    secondOpSet = true;
+                    prevOperator = operator;
+                }
                 firstNumberSet = true;
                 secondNumberSet = true;
+                firstOpSet = true;
                 break;
             case "btnDivide":
                 operator = "/";
                 displayResult = "/";
+                if (firstOpSet) {
+                    secondOpSet = true;
+                    prevOperator = operator;
+                }
                 firstNumberSet = true;
                 secondNumberSet = true;
+                firstOpSet = true;
                 break;
             case "btnEquals":
-                operator = "=";
+                opBtn = "=";
                 displayResult = "=";
                 secondNumberSet = true;
                 secondNumberSet = true;
                 break;
             case "btnClear":
-                operator = "C";
+                opBtn = "C";
+                operator = "";
                 displayResult = "0";
                 firstNumber = "";
                 secondNumber = "";
@@ -180,5 +214,34 @@ function display() {
                 break;
         }
         calcDisplay.textContent = displayResult;
+
+        if (opBtn === "=" || secondOpSet) {
+            displayResult = "";
+            let a = parseInt(firstNumber);
+            let b = parseInt(secondNumber);
+            displayResult = operate(a, b, operator);
+            calcDisplay.textContent = displayResult;
+            if (secondOpSet) {
+                opBtn = "";
+                firstNumber = displayResult;
+                secondNumber = "";
+                firstNumberSet = true;
+                secondNumberSet = true;
+                secondOpSet = false;
+            } else {
+                displayResult = "";
+                opBtn = "";
+                firstNumber = "";
+                secondNumber = "";
+                firstNumberSet = false;
+                secondNumberSet = false;
+                firstOpSet = false;
+                operator = "";
+            }
+        }
+        console.log("#Dn ", firstNumber, firstNumberSet, secondNumber, secondNumberSet, displayResult);
+        console.log("#Do ", operator, firstOpSet, secondOpSet, opBtn, prevOperator);
     })
 }
+
+display();
