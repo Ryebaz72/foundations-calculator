@@ -55,7 +55,6 @@ function operate(num1, num2, operator) {
         default:
             break;
     }
-    console.log("#Dc ", firstNumber, firstNumberSet, secondNumber, secondNumberSet, result);
     return result;
 }
 
@@ -239,8 +238,6 @@ function display() {
                 operator = "";
             }
         }
-        console.log("#Dn ", firstNumber, firstNumberSet, secondNumber, secondNumberSet, displayResult);
-        console.log("#Do ", operator, firstOpSet, secondOpSet, opBtn, prevOperator);
     })
 }
 
